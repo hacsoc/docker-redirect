@@ -1,9 +1,7 @@
-FROM nginx:1.9
+FROM alpine
 
-ADD https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz /dockerize.tgz
-RUN tar -C /usr/local/bin/ -zxvf /dockerize.tgz \
-    && chmod +x /usr/local/bin/dockerize \
-    && rm /dockerize.tgz
+RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apk add --update nginx dockerize@testing && rm -rf /var/cache/apk/*
 
 COPY run.sh /
 COPY default.conf.tmpl /app/default.conf.tmpl
